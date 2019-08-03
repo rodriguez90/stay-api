@@ -9,12 +9,12 @@ class Person(models.Model):
     user = models.OneToOneField(User, models.SET_NULL, null=True)
 
     first_name = models.CharField(max_length=255)
-    second_name = models.CharField(max_length=255)
+    second_name = models.CharField(max_length=255, blank=True, null=True)
     last_name = models.CharField(max_length=255)
-    second_last_name = models.CharField(max_length=255)
-    identification = models.CharField(max_length=255, unique=True)  # dni, ruc, pasaporte
+    second_last_name = models.CharField(max_length=255, blank=True, null=True)
+    identification = models.CharField(max_length=255, blank=True, null=True, unique=True)  # dni, ruc, pasaporte
     email = models.EmailField(unique=True)
-    phone_number = models.CharField(max_length=255)
+    phone_number = models.CharField(max_length=255, blank=True, null=True)
     address = models.TextField(blank=True, null=True)
 
     is_active = models.BooleanField(default=True)

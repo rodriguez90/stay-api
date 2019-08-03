@@ -5,4 +5,5 @@ from .procedure import Procedure
 from .procedure_step import ProcedureStep
 from .person import Person, PersonProcedure
 from .person_procedure_step import PersonProcedureStep, PersonProcedureStepDocument
+from .user_procedure_permission import UserProcedurePermission
 

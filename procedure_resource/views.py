@@ -9,6 +9,8 @@ from rest_framework import permissions
 from rest_framework import renderers
 from rest_framework import status
 from rest_framework import viewsets
+from rest_framework.generics import *
+from rest_framework.mixins import *
 from rest_framework.authtoken.models import Token
 
 from procedure_resource.models import *
@@ -21,6 +23,18 @@ from procedure_resource.serializers import *
 # from django.contrib.auth.models import Group
 # my_group = Group.objects.get(name='my_group_name')
 # my_group.user_set.add(your_user)
+
+
+class RegisterView(CreateAPIView):
+    serializer_class = PersonSerializer
+    permissions = permissions.AllowAny
+    authentication_classes = None
+
+
+class UserViewSet(viewsets.ModelViewSet):
+    queryset = User.objects.all()
+    serializer_class = UserListSerializer
+    pagination_class = None
 
 
 class DepartamentViewSet(viewsets.ModelViewSet):

@@ -25,6 +25,7 @@ class PersonProcedureStep(models.Model):
         choices=STATUS_CHOICES,
         default=STATUS_PENDING,
     )
+    description = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -33,9 +34,24 @@ class PersonProcedureStep(models.Model):
 
 
 class PersonProcedureStepDocument(models.Model):
+    STATUS_PENDING = 1  # Pendiente
+    STATUS_CANCEL = 3  # Rechazado
+    STATUS_FINISHED = 4  # Aceptado
+    STATUS_CHOICES = [
+        (STATUS_PENDING, 'Pendiente'),
+        (STATUS_CANCEL, 'Rechazado'),
+        (STATUS_FINISHED, 'Aceptado'),
+    ]
+
     id = models.AutoField(primary_key=True)
     document = models.ForeignKey(Document, on_delete=models.CASCADE)
     person_procedure_step = models.ForeignKey(PersonProcedureStep, on_delete=models.CASCADE)
+    status = models.CharField(
+        max_length=2,
+        choices=STATUS_CHOICES,
+        default=STATUS_PENDING,
+    )
+    description = models.TextField(blank=True, null=True)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 

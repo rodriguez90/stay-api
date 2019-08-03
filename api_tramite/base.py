@@ -44,16 +44,19 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 'widget_tweaks',
+    'corsheaders',
     'debug_toolbar',
     'rest_framework',  # api rest library
     'rest_framework_swagger',
     'rest_framework.authtoken',  # token auth
     'rest_auth',
     'django_filters',
+    'drf_yasg',
     'procedure_resource',
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -143,7 +146,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static"),
-    ]
+]
 
 STATIC_ROOT = os.path.join(os.path.dirname(BASE_DIR), "static")
 
@@ -155,11 +158,16 @@ REST_FRAMEWORK = {
     # 'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 10,
+    'DEFAULT_PARSE_CLASSES': [
+        'rest_framework.parsers.FormParse',
+        'rest_framework.parsers.MultiParse',
+        'rest_framework.parsers.JSONParse',
+    ],
     'DEFAULT_PERMISSION_CLASSES': [
         # 'rest_framework.permissions.IsAuthenticated'
         # 'rest_framework.permissions.AllowAny',
         # 'rest_framework.permissions.IsAuthenticatedOrReadOnly'
-        # 'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
     ],
     # 'DEFAULT_AUTHENTICATION_CLASSES': (
     #     'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
@@ -193,5 +201,7 @@ JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3600),
 }
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 

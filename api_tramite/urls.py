@@ -21,35 +21,41 @@ from django.conf import settings
 
 from rest_framework import permissions
 from rest_framework.schemas import get_schema_view
+from rest_framework.renderers import CoreJSONRenderer
+from rest_framework.documentation import include_docs_urls
 from rest_framework_swagger.views import get_swagger_view
-# from rest_framework_swagger.renderers import SwaggerUIRenderer, OpenAPIRenderer
-
-# from drf_yasg.views import get_schema_view
-# from drf_yasg import openapi
+from rest_framework_swagger.renderers import SwaggerUIRenderer, OpenAPIRenderer
 
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token
 from procedure_resource import urls as procedure_urls
 
-schema_view = get_swagger_view(title='Cobranza Api')
-# schema_view = get_schema_view(title='Cobranza Api')
+swagger_view = get_swagger_view(title='Cobranza Api')
+# schema_view = get_schema_view(title='Cobranza Api', renderer_classes=[OpenAPIRenderer, SwaggerUIRenderer])
+schema_view = get_schema_view(title='Cobranza Api', renderer_classes=[CoreJSONRenderer])
 
-# schema_view = get_schema_view(
-#     openapi.Info(
-#         title='Concordia Api',
-#         default_version='v1',
-#         description='',
-#         terms_of_service='',
-#         contact=openapi.Contact(email='rodriguezmador90@gmail.com'),
-#     ),
-#     public=True,
-#     permission_classes=(permissions.AllowAny,),
-# )
+from drf_yasg.views import get_schema_view as yags_get_schema_view
+from drf_yasg import openapi
+
+yags_schema_view = yags_get_schema_view(
+    openapi.Info(
+        title='Concordia Api',
+        default_version='v1',
+        description='',
+        terms_of_service='www.google.com/policies/terms',
+        contact=openapi.Contact(email='rodriguezmador90@gmail.com'),
+        license=openapi.License(name="BSD License"),
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
 
 urlpatterns = [
+    url(r'api/v1/json', schema_view, name="docs"),
+    url(r'api/v1/doc', swagger_view),
     # url(r'api-doc', include('rest_framework_swagger.urls')),
-    # url(r'^swagger(?P<format>\.json|.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
-    # url(r'^swagger$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
-    # url(r'^redoc$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
+    url(r'^swagger(?P<format>\.json|.yaml)$', yags_schema_view.without_ui(cache_timeout=0), name='schema-json'),
+    url(r'^swagger$', yags_schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
+    url(r'^redoc$', yags_schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path(r'api-token-auth/', obtain_jwt_token),
