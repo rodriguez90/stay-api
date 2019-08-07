@@ -6,22 +6,22 @@ from .procedure import Procedure
 
 
 class Person(models.Model):
-    user = models.OneToOneField(User, models.SET_NULL, null=True)
+    user = models.OneToOneField(User, primary_key=True, verbose_name='usuario', on_delete=models.CASCADE)
 
-    first_name = models.CharField(max_length=255)
-    second_name = models.CharField(max_length=255, blank=True, null=True)
-    last_name = models.CharField(max_length=255)
-    second_last_name = models.CharField(max_length=255, blank=True, null=True)
-    identification = models.CharField(max_length=255, blank=True, null=True, unique=True)  # dni, ruc, pasaporte
-    email = models.EmailField(unique=True)
-    phone_number = models.CharField(max_length=255, blank=True, null=True)
-    address = models.TextField(blank=True, null=True)
+    second_name = models.CharField(max_length=255, blank=True, null=True, verbose_name='segundo nombre')
+    second_last_name = models.CharField(max_length=255, blank=True, null=True, verbose_name='segundo apellido')
+    identification = models.CharField(max_length=255, blank=True, null=True, unique=True, verbose_name='identificación')  # dni, ruc, pasaporte
+    phone_number = models.CharField(max_length=255, blank=True, null=True, verbose_name='Teléfono')
+    address = models.TextField(blank=True, null=True, verbose_name='dirección')
 
-    is_active = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True, verbose_name='esta activo')
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name='creado el')
+    updated_at = models.DateTimeField(auto_now=True, verbose_name='actualizdo el')
 
-    procedures = models.ManyToManyField(Procedure, through='PersonProcedure')
+    procedures = models.ManyToManyField(Procedure, through='PersonProcedure', verbose_name='trámites')
+
+    class Meta:
+        verbose_name = 'persona'
 
     def __str__(self):
         return self.name

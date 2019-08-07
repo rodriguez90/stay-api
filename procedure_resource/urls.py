@@ -93,10 +93,9 @@ user_detail = UserViewSet.as_view({
 
 
 urlpatterns = [
-    # path('api/v1/', include(router.urls), name='procedure'),
     path('register', RegisterView.as_view(), name='register'),
-    path('document_type', document_type_list, name='document_type'),
-    path('document_type/<int:pk>/', document_type_detail, name='document_type'),
+    path('document-type', document_type_list, name='document_type'),
+    path('document-type/<int:pk>/', document_type_detail, name='document_type'),
     path('departament', departament_list, name='departament'),
     path('departament/<int:pk>/', departement_detail, name='departament'),
     path('person/', persona_list, name='person'),

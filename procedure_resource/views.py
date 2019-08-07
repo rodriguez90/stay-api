@@ -9,6 +9,8 @@ from rest_framework import permissions
 from rest_framework import renderers
 from rest_framework import status
 from rest_framework import viewsets
+from rest_framework import authentication
+from rest_framework_jwt.authentication import  JSONWebTokenAuthentication
 from rest_framework.generics import *
 from rest_framework.mixins import *
 from rest_framework.authtoken.models import Token
@@ -28,7 +30,31 @@ from procedure_resource.serializers import *
 class RegisterView(CreateAPIView):
     serializer_class = PersonSerializer
     permissions = permissions.AllowAny
-    authentication_classes = None
+    permission_classes = []
+    authentication_classes = []
+
+    # def create(self, request, *args, **kwargs):
+    #     user_data = request.data.get("user", None)
+    #     person_serializer = self.get_serializer(data=request.data)
+    #     user_serializer = UserSerializer(data=user_data)
+    #     if person_serializer.is_valid(True) and user_serializer.is_valid(True):
+    #         user_intance = user_serializer.create(validated_data=user_data)
+    #         person = person_serializer.create(request.data)
+    #
+    #         user = None
+    #
+    #         result = User.objects.filter(username=user_intance.username)
+    #         if not result.exists():
+    #             user_intance = User.objects.create_user(user_intance.username, user_intance.email, user_intance.password)
+    #             person = person_serializer.create(request.data)
+    #             person.user = user_intance
+    #             person.save()
+    #
+    #             return Response(person_serializer.data, status=status.HTTP_201_CREATED)
+    #         else:
+    #             return Response(person_serializer.data, status=status.HTTP_400_BAD_REQUEST,)
+    #
+    #     return Response(person_serializer.data, status=status.HTTP_400_BAD_REQUEST)
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -43,6 +69,11 @@ class DepartamentViewSet(viewsets.ModelViewSet):
       """
     queryset = Departament.objects.all()
     serializer_class = DepartamentSerializer
+    pagination_class = None
+
+    # permissions = permissions.AllowAny
+    # permission_classes = []
+    # authentication_classes = []
 
 
 class DocumentTypeViewSet(viewsets.ModelViewSet):
@@ -51,6 +82,11 @@ class DocumentTypeViewSet(viewsets.ModelViewSet):
       """
     queryset = DocumentType.objects.all()
     serializer_class = DocumentTypeSerializer
+    pagination_class = None
+
+    # permissions = permissions.AllowAny
+    # permission_classes = []
+    # authentication_classes = []
 
 
 class ProcedureViewSet(viewsets.ModelViewSet):
@@ -59,6 +95,7 @@ class ProcedureViewSet(viewsets.ModelViewSet):
       """
     queryset = Procedure.objects.all()
     serializer_class = ProcedureSerializer
+    pagination_class = None
 
 
 class ProcedureStepViewSet(viewsets.ModelViewSet):
@@ -67,6 +104,7 @@ class ProcedureStepViewSet(viewsets.ModelViewSet):
       """
     queryset = ProcedureStep.objects.all()
     serializer_class = ProcedureStepSerializer
+    pagination_class = None
 
 
 class PersonViewSet(viewsets.ModelViewSet):
@@ -75,6 +113,7 @@ class PersonViewSet(viewsets.ModelViewSet):
       """
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
+    pagination_class = None
 
 
     # def create(self, request, *args, **kwargs):
@@ -169,6 +208,7 @@ class PersonProcedureViewSet(viewsets.ModelViewSet):
       """
     queryset = PersonProcedure.objects.all()
     serializer_class = PersonProcedureSerializer
+    pagination_class = None
 
 
 class PersonProcedureStepViewSet(viewsets.ModelViewSet):
@@ -177,6 +217,7 @@ class PersonProcedureStepViewSet(viewsets.ModelViewSet):
       """
     queryset = PersonProcedureStep.objects.all()
     serializer_class = PersonProcedureStepSerializer
+    pagination_class = None
 
 
 def clean_email(self, username):

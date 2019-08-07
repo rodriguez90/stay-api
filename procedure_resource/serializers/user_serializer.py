@@ -22,7 +22,8 @@ class UserSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(validated_data['username'],
                                         validated_data['email'],
-                                        validated_data['password'])
+                                        validated_data['password'],
+                                        **validated_data)
         # user = User()
         # user.username = validated_data['username']
         # user.email = validated_data['email']
@@ -31,4 +32,4 @@ class UserSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'password']
+        fields = '__all__'

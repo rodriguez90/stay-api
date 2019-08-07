@@ -44,11 +44,12 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # 'widget_tweaks',
-    'corsheaders',
+    'corsheaders',  # configuracion de CORS
     'debug_toolbar',
     'rest_framework',  # api rest library
     'rest_framework_swagger',
     'rest_framework.authtoken',  # token auth
+    'rest_framework_jwt',
     'rest_auth',
     'django_filters',
     'drf_yasg',
@@ -60,7 +61,7 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+    # 'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -164,16 +165,15 @@ REST_FRAMEWORK = {
         'rest_framework.parsers.JSONParse',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        # 'rest_framework.permissions.IsAuthenticated'
-        # 'rest_framework.permissions.AllowAny',
-        # 'rest_framework.permissions.IsAuthenticatedOrReadOnly'
-        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+        # 'rest_framework.permissions.IsAuthenticated',
+        # 'rest_framework.permissions.DjangoModelPermissions'
     ],
-    # 'DEFAULT_AUTHENTICATION_CLASSES': (
-    #     'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
-    #     'rest_framework.authentication.SessionAuthentication',
-    #     'rest_framework.authentication.BasicAuthentication',
-    # ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+    ),
 }
 
 # SWAGGER_SETTINGS = {
@@ -199,9 +199,28 @@ REDOC_SETTINGS = {
 
 JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
+    'JWT_AUTH_HEADER_PREFIX': 'Bearer',
     'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3600),
+    'JWT_RESPONSE_PAYLOAD_HANDLER': 'procedure_resource.utils.jwt_response_payload_handler',
 }
 
+# CORS
 CORS_ORIGIN_ALLOW_ALL = True
+CORS_ALLOW_CREDENTIALS = True
+CORS_ORIGIN_WHITELIST = [
+    'http://localhost:4300',
+    'http://localhost:8000',
+]
 
 
+REST_REGISTRATION = {
+    'REGISTER_VERIFICATION_ENABLED': False,
+    'REGISTER_EMAIL_VERIFICATION_ENABLED': False,
+    'RESET_PASSWORD_VERIFICATION_ENABLED': False,
+
+    'REGISTER_VERIFICATION_URL': 'https://frontend-host/verify-user/',
+    'RESET_PASSWORD_VERIFICATION_URL': 'https://frontend-host/reset-password/',
+    'REGISTER_EMAIL_VERIFICATION_URL': 'https://frontend-host/verify-email/',
+
+    'VERIFICATION_FROM_EMAIL': 'no-reply@example.com',
+}

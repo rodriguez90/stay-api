@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.conf.urls import url
+from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
@@ -58,10 +59,23 @@ urlpatterns = [
     url(r'^redoc$', yags_schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('api-rest-auth/', include('rest_auth.urls'), name='rest_auth'),
     path(r'api-token-auth/', obtain_jwt_token),
     path(r'api-token-refresh/', refresh_jwt_token),
     path('', include(procedure_urls)),
 ]
+
+from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework_jwt.views import refresh_jwt_token
+from rest_framework_jwt.views import verify_jwt_token
+
+urlpatterns += [
+    url(r'^auth-jwt/', obtain_jwt_token),
+    url(r'^auth-jwt-refresh/', refresh_jwt_token),
+    url(r'^auth-jwt-verify/', verify_jwt_token),
+]
+
+urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
     import debug_toolbar
