@@ -1,10 +1,10 @@
 from django.db import models
 from .person import PersonProcedure
-from .procedure_step import ProcedureStep
+from .requirement import Requirement
 from .document import Document
 
 
-class PersonProcedureStep(models.Model):
+class PersonRequirement(models.Model):
     STATUS_PENDING = 1  # Pendiente
     STATUS_INIT = 2  # Inicializado
     STATUS_CANCEL = 3  # Cancelado
@@ -17,8 +17,8 @@ class PersonProcedureStep(models.Model):
     ]
 
     person_procedure = models.ForeignKey(PersonProcedure, on_delete=models.CASCADE)
-    procedure_step = models.ForeignKey(ProcedureStep, on_delete=models.CASCADE)
-    requirements = models.ManyToManyField(Document, through='PersonProcedureStepDocument')
+    procedure_step = models.ForeignKey(Requirement, on_delete=models.CASCADE)
+    requirements = models.ManyToManyField(Document, through='PersonRequirementDocument')
     id = models.AutoField(primary_key=True)
     status = models.CharField(
         max_length=2,
@@ -33,7 +33,7 @@ class PersonProcedureStep(models.Model):
         return self.name
 
 
-class PersonProcedureStepDocument(models.Model):
+class PersonRequirementDocument(models.Model):
     STATUS_PENDING = 1  # Pendiente
     STATUS_CANCEL = 3  # Rechazado
     STATUS_FINISHED = 4  # Aceptado
@@ -45,7 +45,7 @@ class PersonProcedureStepDocument(models.Model):
 
     id = models.AutoField(primary_key=True)
     document = models.ForeignKey(Document, on_delete=models.CASCADE)
-    person_procedure_step = models.ForeignKey(PersonProcedureStep, on_delete=models.CASCADE)
+    person_procedure_step = models.ForeignKey(PersonRequirement, on_delete=models.CASCADE)
     status = models.CharField(
         max_length=2,
         choices=STATUS_CHOICES,

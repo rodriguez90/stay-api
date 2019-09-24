@@ -4,6 +4,12 @@ from rest_framework import serializers
 from procedure_resource.models import Person, PersonProcedure
 from .user_serializer import UserSerializer
 
+######
+## User group
+######
+from django.contrib.auth.models import Group
+from django.contrib.auth.hashers import make_password
+
 
 class PersonSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=False)
@@ -16,7 +22,11 @@ class PersonSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user_data = validated_data.pop('user')
+        user_data['password'] = make_password(user_data['password'])
         user = User.objects.create(**user_data)
+
+        my_group = Group.objects.get(name='Persona')
+        my_group.user_set.add(user)
         # user = self.user.create(user_data)
 
         person = Person.objects.create(user=user, **validated_data)

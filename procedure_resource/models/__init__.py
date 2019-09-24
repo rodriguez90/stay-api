@@ -2,8 +2,8 @@ from .departament import Departament
 from .document_type import DocumentType
 from .document import Document
 from .procedure import Procedure
-from .procedure_step import ProcedureStep
+from .requirement import Requirement
 from .person import Person, PersonProcedure
-from .person_procedure_step import PersonProcedureStep, PersonProcedureStepDocument
-from .user_procedure_permission import UserProcedurePermission
+from .person_requirement import PersonRequirement, PersonRequirementDocument
+from .requirement_permission import RequirementPermission
 

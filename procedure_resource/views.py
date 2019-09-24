@@ -19,13 +19,6 @@ from procedure_resource.models import *
 from procedure_resource.serializers import *
 # Create your views here.
 
-######
-## User gruoup
-######
-# from django.contrib.auth.models import Group
-# my_group = Group.objects.get(name='my_group_name')
-# my_group.user_set.add(your_user)
-
 
 class RegisterView(CreateAPIView):
     serializer_class = PersonSerializer
@@ -97,14 +90,44 @@ class ProcedureViewSet(viewsets.ModelViewSet):
     serializer_class = ProcedureSerializer
     pagination_class = None
 
+    action_serializers = {
+        'retrieve': ProcedureSerializer,
+        'list': ProcedureSerializer,
+        'create': ProcedureCreateSerializer,
+        'update': ProcedureCreateSerializer
+    }
 
-class ProcedureStepViewSet(viewsets.ModelViewSet):
+    def get_serializer_class(self):
+
+        if hasattr(self, 'action_serializers'):
+            if self.action in self.action_serializers:
+                return self.action_serializers[self.action]
+
+        return super(RequirementViewSet, self).get_serializer_class()
+
+
+class RequirementViewSet(viewsets.ModelViewSet):
     """
       This viewset automatically provides list and detail actions
       """
-    queryset = ProcedureStep.objects.all()
-    serializer_class = ProcedureStepSerializer
+    queryset = Requirement.objects.all()
+    serializer_class = RequirementSerializer
     pagination_class = None
+
+    action_serializers = {
+        'retrieve': RequirementSerializer,
+        'list': RequirementSerializer,
+        'create': RequirementCreateSerializer,
+        'update': RequirementSerializer
+    }
+
+    def get_serializer_class(self):
+
+        if hasattr(self, 'action_serializers'):
+            if self.action in self.action_serializers:
+                return self.action_serializers[self.action]
+
+        return super(RequirementViewSet, self).get_serializer_class()
 
 
 class PersonViewSet(viewsets.ModelViewSet):
@@ -215,8 +238,8 @@ class PersonProcedureStepViewSet(viewsets.ModelViewSet):
     """
       This viewset automatically provides list and detail actions
       """
-    queryset = PersonProcedureStep.objects.all()
-    serializer_class = PersonProcedureStepSerializer
+    queryset = PersonRequirement.objects.all()
+    serializer_class = PersonRequirementSerializer
     pagination_class = None
 
 

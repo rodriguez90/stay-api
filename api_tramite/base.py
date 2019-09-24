@@ -200,7 +200,7 @@ REDOC_SETTINGS = {
 JWT_AUTH = {
     'JWT_ALLOW_REFRESH': True,
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=3600),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(seconds=360000),
     'JWT_RESPONSE_PAYLOAD_HANDLER': 'procedure_resource.utils.jwt_response_payload_handler',
 }
 

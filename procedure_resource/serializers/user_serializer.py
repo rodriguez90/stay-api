@@ -24,10 +24,6 @@ class UserSerializer(serializers.ModelSerializer):
                                         validated_data['email'],
                                         validated_data['password'],
                                         **validated_data)
-        # user = User()
-        # user.username = validated_data['username']
-        # user.email = validated_data['email']
-        # user.password = validated_data['password']
         return user
 
     class Meta:

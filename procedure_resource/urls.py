@@ -14,7 +14,7 @@ from procedure_resource.views import \
     DepartamentViewSet, \
     PersonViewSet, \
     ProcedureViewSet, \
-    ProcedureStepViewSet, \
+    RequirementViewSet, \
     PersonProcedureViewSet, \
     PersonProcedureStepViewSet, \
     UserViewSet, \
@@ -65,13 +65,52 @@ person_detail = PersonViewSet.as_view({
     'delete': 'destroy',
 })
 
-# Procedures Routes
+# Procedure Routes
 procedure_list = ProcedureViewSet.as_view({
     'get': 'list',
     'post': 'create'
 })
 
 procedure_detail = ProcedureViewSet.as_view({
+    'get': 'retrieve',
+    'put': 'update',
+    'patch': 'partial_update',
+    'delete': 'destroy',
+})
+
+# ProcedureStep Routes
+procedure_requirement_list = RequirementViewSet.as_view({
+    'get': 'list',
+    'post': 'create'
+})
+
+procedure_requirement_detail = RequirementViewSet.as_view({
+    'get': 'retrieve',
+    'put': 'update',
+    'patch': 'partial_update',
+    'delete': 'destroy',
+})
+
+# PersonProcedure Routes
+person_procedure_list = PersonProcedureViewSet.as_view({
+    'get': 'list',
+    'post': 'create'
+})
+
+person_procedure_detail = PersonProcedureViewSet.as_view({
+    'get': 'retrieve',
+    'put': 'update',
+    'patch': 'partial_update',
+    'delete': 'destroy',
+})
+
+# PersonProcedureStep Routes
+person_requirement_list = PersonProcedureStepViewSet.as_view({
+    'get': 'list',
+    'post': 'create'
+})
+
+person_requirement_detail = PersonProcedureStepViewSet.as_view({
     'get': 'retrieve',
     'put': 'update',
     'patch': 'partial_update',
@@ -102,6 +141,12 @@ urlpatterns = [
     path('person/<int:pk>/', person_detail, name='person'),
     path('procedure/', procedure_list, name='procedure'),
     path('procedure/<int:pk>/', procedure_detail, name='procedure'),
+    path('requirement/', procedure_requirement_list, name='procedure'),
+    path('requirement/<int:pk>/', procedure_requirement_detail, name='procedure'),
+    path('person-procedure/', person_procedure_list, name='procedure'),
+    path('person-procedure/<int:pk>/', person_procedure_detail, name='procedure'),
+    path('person-requirement/', person_requirement_list, name='procedure'),
+    path('person-requirement/<int:pk>/', person_requirement_detail, name='procedure'),
     path('user/', user_list, name='user'),
     path('user/<int:pk>/', user_detail, name='user'),
 ]
