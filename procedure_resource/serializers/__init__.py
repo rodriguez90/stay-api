@@ -1,8 +1,0 @@
-from .departement_serializer import DepartamentSerializer
-from .document_type_serializer import DocumentTypeSerializer
-from .person_serialize import PersonSerializer, PersonProcedureSerializer
-from .procedure_serializer import ProcedureSerializer, ProcedureCreateSerializer
-from .requirement_serializer import RequirementSerializer, RequirementCreateSerializer
-from .person_requirement_serializer import PersonRequirementSerializer, PersonRequirementDocumentSerializer
-from .user_serializer import UserSerializer, UserListSerializer
-

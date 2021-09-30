@@ -1,0 +1,1 @@
+from stay.views import *
